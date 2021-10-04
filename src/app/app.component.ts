@@ -13,21 +13,16 @@ export class AppComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'specialty'];
   results$:Observable<any> = new Observable<any>();
-  search$ = new Subject<string>();
+  search$ = new Subject<{search:string, field:string}>();
   searchField:string = 'name';
-  ngModelOptions = {
-    standalone:true
-  }
+  searchValue:string = '';
 
   constructor(private http: HttpClient) {
   }
   ngOnInit(): void {
     this.loadData();
-     this.search$.pipe(debounceTime(300)).subscribe((value) => {
-        this.loadData({
-          search:value,
-          field:this.searchField
-        });
+     this.search$.pipe(debounceTime(300)).subscribe((filter) => {
+        this.loadData(filter);
      })
   }
 
@@ -43,7 +38,19 @@ export class AppComponent implements OnInit {
   }
 
   handleSearch(event:any) {
-    this.search$.next(event.target.value);
+    this.searchValue = event.target.value;
+    this.initiateSearch();
   }
 
+  handleFieldChange(event:any) {
+    this.searchField = event.target.value;
+    this.initiateSearch();
+  }
+
+  initiateSearch() {
+    this.search$.next({
+      search:this.searchValue,
+      field:this.searchField,
+    });
+  }
 }

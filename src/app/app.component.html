@@ -14,13 +14,13 @@
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Search</mat-label>
-        <input matInput placeholder="Search" (keyup)="handleSearch($event)">
+        <input matInput placeholder="Search" value="" (keyup)="handleSearch($event)">
       </mat-form-field>
-      <mat-form-field appearance="fill" [ngModelOptions]="ngModelOptions" [(ngModel)]="searchField"  style="padding-left: 20px; width: 100px">
+      <mat-form-field appearance="fill" (change)="handleFieldChange($event)" style="padding-left: 20px; width: 100px">
         <mat-label>Field</mat-label>
         <select matNativeControl>
           <option value="name">Name</option>
-          <option value="speciality">Speciality</option>
+          <option value="specialty">Specialty</option>
         </select>
       </mat-form-field>
     </div>
